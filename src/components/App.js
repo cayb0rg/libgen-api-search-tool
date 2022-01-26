@@ -33,19 +33,19 @@ export default function App() {
 
     const [mobile, setMobile] = useState(false);
 
-    const fakeData = [
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255661", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255662", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255663", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255664", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255665", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255666", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255667", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255668", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255669", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "25565", coverurl:"../../public/images/cover.jpg" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "25564", coverurl:"../../public/images/cover.jpg" },
-    ]
+    // const fakeData = [
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255661", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255662", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255663", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255664", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255665", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255666", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255667", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255668", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255669", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "25565", coverurl:"../../public/images/cover.jpg" },
+    //     { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "25564", coverurl:"../../public/images/cover.jpg" },
+    // ]
 
 
 
@@ -56,22 +56,22 @@ export default function App() {
             setErrors({noResultsFound: false})
             const query = searchValue.replace(' ', '+');
             const url = 'http://localhost:8080/api/?req=' + query + '&fields=' + queryFields + (genre == 'Fiction' ? '&lg_topic=fiction' :  '');
-            /* const results = await axios(url).catch(err => console.log(err))
+            console.log(url);
+            const results = await axios(url).catch(err => console.log(err))
             .then((results) => {
                 if (results.data.notFound) {
                     setErrors({noResultsFound: true}) 
                 } else {
-                    console.log(results.data)
                     setSearchResults(results.data);
                     sessionStorage.setItem('searchResults', JSON.stringify(results.data));
+                    setIsLoading(false);
                 }
-                setIsLoading(false);
-            }); */
-            setTimeout(() => {
-                setSearchResults(fakeData);
-                sessionStorage.setItem('searchResults', JSON.stringify(fakeData));
-                setIsLoading(false);
-            }, 2000);
+            });
+            // setTimeout(() => {
+            //     setSearchResults(fakeData);
+            //     sessionStorage.setItem('searchResults', JSON.stringify(fakeData));
+            //     setIsLoading(false);
+            // }, 2000);
             setRedirectToResults(true);
         }
 

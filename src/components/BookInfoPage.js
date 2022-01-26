@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function BookInfoPage() {
     let { id } = useParams();
@@ -19,18 +20,23 @@ export default function BookInfoPage() {
         title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255661", coverurl:"../../public/images/cover.jpg", publisher: "McGraw Hill", edition: "4th", description: "Key Message: This book aims to explain physics in a readable and interesting manner that is accessible and clear, and to teach readers by anticipating their needs and difficulties without oversimplifying. Physics is a description of reality, and thus each topic begins with concrete observations and experiences that readers can directly relate to. We then move on to the generalizations and more formal treatment of the topic. Not only does this make the material more interesting and easier to understand, but it is closer to the way physics is actually practiced. Key Topics: INTRODUCTION, MEASUREMENT, ESTIMATING, DESCRIBING MOTION: KINEMATICS IN ONE DIMENSION, KINEMATICS IN TWO OR THREE DIMENSIONS; VECTORS, DYNAMICS: NEWTON’S LAWS OF MOTION , USING NEWTON’S LAWS: FRICTION, CIRCULAR MOTION, DRAG FORCES, GRAVITATION AND NEWTON’S6 SYNTHESIS , WORK AND ENERGY , CONSERVATION OF ENERGY , LINEAR MOMENTUM , ROTATIONAL MOTION , ANGULAR MOMENTUM; GENERAL ROTATION , STATIC EQUILIBRIUM; ELASTICITY AND FRACTURE , FLUIDS , OSCILLATIONS , WAVE MOTION,  SOUND , TEMPERATURE, THERMAL EXPANSION, AND THE IDEAL GAS LAW KINETIC THEORY OF GASES, HEAT AND THE FIRST LAW OF THERMODYNAMICS , SECOND LAW OF THERMODYNAMICS , ELECTRIC CHARGE AND ELECTRIC FIELD , GAUSS’S LAW , ELECTRIC POTENTIAL , CAPACITANCE, DIELECTRICS, ELECTRIC ENERGY STORAGE ELECTRIC CURRENTS AND RESISTANCE, DC CIRCUITS, MAGNETISM, SOURCES OF MAGNETIC FIELD, ELECTROMAGNETIC INDUCTION AND FARADAY’S LAW, INDUCTANCE, ELECTROMAGNETIC OSCILLATIONS, AND AC CIRCUITS, MAXWELL’S EQUATIONS AND ELECTROMAGNETIC WAVES, LIGHT: REFLECTION AND REFRACTION, LENSES AND OPTICAL INSTRUMENTS, THE WAVE NATURE OF LIGHT; INTERFERENCE, DIFFRACTION AND POLARIZATION, SPECIAL THEORY OF RELATIVITY, EARLY QUANTUM THEORY AND MODELS OF THE ATOM, QUANTUM MECHANICS, QUANTUM MECHANICS OF ATOMS, MOLECULES AND SOLIDS,  NUCLEAR PHYSICS AND RADIOACTIVITY, NUCLEAR ENERGY: EFECTS AND USES OF RADIATION, ELEMENTARY PARTICLES,ASTROPHYSICS AND COSMOLOGY  Market Description: This book is written for readers interested in learning the basics of physics. " 
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         setIsLoading(true);
-        /* const result = await axios(`http://libgen.io/json.php?ids=${id}`).catch(err => console.log(err))
-        .then((result) => {
-            if (result.data.notFound) {
-                console.log("No data found") 
-            } else {
-                console.log(result.data)
-                setBook(result.data);
-            }
-            setIsLoading(false);
-        }); */
+        // const result = await axios.get(`http://libgen.rs/json.php?ids=${id}?fields=Title,Author`, {
+        //     headers: {
+        //         'Access-Control-Allow-Origin': '*',
+        //         'Access-Control-Allow-Headers': '*'
+        //     }
+        // }).catch(err => console.log(err))
+        // .then((result) => {
+        //     if (result.data.notFound) {
+        //         console.log("No data found") 
+        //     } else {
+        //         console.log(result.data)
+        //         setBook(result.data);
+        //     }
+        //     setIsLoading(false);
+        // });
         setTimeout(() => {
             setBook(fakeBook);
             console.log(book);
