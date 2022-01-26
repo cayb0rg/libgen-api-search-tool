@@ -1,10 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Dropdown from './Dropdown'
 
 export default function BookOptions(props) {
+
+    const [userLibraries, setUserLibraries] = useState(['Library One']);
+    const [chosenOption, setChosenOption] = useState('Add to Library');
+    const [className, setClassName] = useState('add_to_library');
+
     return (
         <div className='bookOptions'>
-            <button>Add to Library</button>
-            <button>Go to Download ({parseInt(props.filesize)/1000} mb)</button>
+            <div className='bookOptionsInner'>
+                <button className='downloadBtn'>    Download
+                </button>
+                <div className='addToLibrary'>
+                    <Dropdown options={userLibraries} chosenOption={chosenOption} setChosenOption={setChosenOption} id={props.id}></Dropdown>
+                </div>
+            </div>
         </div>
     )
 }

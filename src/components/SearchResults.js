@@ -1,44 +1,83 @@
-import React, { useState, useEffect } from 'react'
-import Card from './Card'
-import Search from './Search';
-import Loading from './Loading';
+import React, { useState, useEffect, Suspense } from "react";
+import Card from "./Card";
+import Loading from "./Loading";
+import gsap from "gsap";
+import SkeletonResults from "./SkeletonResults";
 
 export default function SearchResults(props) {
-    const [sortBy, setSortBy] = useState();
-    const [sortDesc, setSortDesc] = useState(true);
-    const [sortByChanged, setSortByChanged] = useState(false);
+  const [sortBy, setSortBy] = useState();
+  const [sortDesc, setSortDesc] = useState(true);
+  const [sortByChanged, setSortByChanged] = useState(false);
 
-    return (
-        <div>
+  useEffect(() => {
+    props.setRedirectToResults(true);
+    gsap.set(".search-logo", {
+      display: "flex",
+      flexDirection: "row",
+      alignContent: "center",
+      duration: 1,
+    });
+    gsap.set(".logo", {
+      marginLeft: 0,
+      duration: 1,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+    });
+    gsap.set(".search-logo", {
+      y: 0,
+      duration: 1,
+    });
+    gsap.set("header", {
+      flexDirection: "row",
+    });
+  }, []);
 
-            
-
-            <Search  
-                placeholder={props.placeholder}
-                onSubmit={props.onSubmit} 
-                searchValue={props.searchValue} 
-                onChange={props.onChange}
-                genre={props.genre}
-                setGenre={props.setGenre} 
-                searchClass={props.searchClass}
-                setFiction={props.setFiction}
-            />
-
-
-            {props.errors.noResultsFound ? <p>No Results Found</p> : props.isLoading ? <Loading></Loading> :
-                <div className='searchResults'>
-                    {props.results.map((book) => {
-                        return <Card key={book.id} 
-                        title={book.title} 
-                        author={book.author}
-                        coverurl={book.coverurl}
-                        filesize={book.filesize}
-                        year={book.year}
-                        extension={book.extension}></Card>
-                    })}
-                </div> 
-            }
-            
-        </div>
-    )
+  return props.errors.noResultsFound ? (
+    <p>No Results Found</p>
+  ) : props.isLoading ? (
+    <SkeletonResults 
+    mobile={props.mobile}></SkeletonResults>
+  ) : (
+    <div className="searchResults">
+      {props.results.map((book) => {
+        return (
+          <Card
+            id={book.id}
+            key={book.id}
+            title={book.title}
+            author={book.author}
+            coverurl={book.coverurl}
+            filesize={book.filesize}
+            year={book.year}
+            extension={book.extension}
+            mobile={props.mobile}
+            setMobile={props.setMobile}
+          ></Card>
+        );
+      })}
+    </div>
+  );
+  {/* <Suspense fallback={<SkeletonResults 
+    mobile={props.mobile}></SkeletonResults>}>
+      <div className="searchResults">
+      {props.results.map((book) => {
+        return (
+          <Card
+            id={book.id}
+            key={book.id}
+            title={book.title}
+            author={book.author}
+            coverurl={book.coverurl}
+            filesize={book.filesize}
+            year={book.year}
+            extension={book.extension}
+            mobile={props.mobile}
+            setMobile={props.setMobile}
+          ></Card>
+        );
+      })}
+    </div>
+    </Suspense> */}
+  
 }

@@ -1,55 +1,167 @@
+
+$color-1: #f1f3f8;
+$color-2: #d6e0f0;
+$color-2-grey: rgba(183, 188, 202, 0.274);
+$color-3: #8d93ab;
+$color-4: #393b44;
+$color-5: #131418;
+$transparent: rgba(0,0,0,0);
+
+$white: rgb(235, 235, 235);
+$purple: rgb(149, 67, 255);
+$blue: rgb(74, 204, 255);
+$teal: rgb(148, 255, 223);
+
 * {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: $color-4;
 }
 
-$bg-color: rgb(0, 89, 255);
-$bg-color-1: rgb(218, 218, 218);
-$pop-color: rgb(255, 86, 35);
 
 button {
     border: none;
-    background-color: rgba(0,0,0,0);
+    background-color: $transparent;
 }
 
 body {
-    max-width: 1280px;
-    margin: auto;
+    background-color: $color-1;
 }
 
 a {
     text-decoration: none;
-    color: black;
+    color: $color-4;
 }
 
 .defaultBtn {
-    background-color: $bg-color-1;
+    background-color: $color-1;
     border-radius: 2px;
     padding: 0.5em; 
 }
 
-.defaultBtn:hover {
-
+.activeBtn {
+    background-color: $color-2;
 }
 
-.activeBtn {
-    background-color: $bg-color;
+.main {
+    margin: auto;
+    max-width: 1280px;
+}
+
+/** Header **/
+
+header {
+    display: flex;
+    flex-direction: column-reverse;
+    align-content: center;
+    justify-content: center;
+    background-color: $color-1;
+    width: 100%;
+    z-index: 10;
+}
+
+.header-top {
+    display: flex;
+    flex-direction: row-reverse;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 114px;
+}
+
+.fixed .header-top {
+    position: relative;
+    width: auto;
+    height: inherit;
+}
+
+.fixed {
+    position: fixed;
+    box-shadow: 0 0 10px 0.1px $color-2;
+}
+
+.logo {
+    margin-left: calc(50% - 100px);
+    min-width: 200;
+}
+
+.fixed .logo {
+    padding-left: 1em;
+}
+
+.logo * {
+    height: 50px;
+}
+
+.userLogIn {
+    min-width: 50px;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1em;
+}
+
+.loadingSVG {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+.loadingSVG svg g > * {
+    fill: $color-2;
+}
+
+.searchResults {
+    padding-top: 115px;
 }
 
 /** Search Container **/
 
+.search-logo {
+    padding: 1em 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.fixed .search-logo {
+    
+    max-width: 1280px;
+}
+
+.search {
+    width: 100%;
+}
+
+.fixed .search {
+    margin: 0 1em;
+    width: 90%;
+}
+
 .search-box {
-    border: 1px solid rgba(0,0,0,0.3);
+    border: 1px solid $color-3;
     border-radius: 5em;
     width: 100%;
-    max-width: 1000px;
+    max-width: 768px;
     height: 5em;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 90%;
     margin: auto;
+}
+
+.fixed .search-box {
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+    height: 50px;
 }
 
 .search form {
@@ -65,7 +177,22 @@ a {
     z-index: -1;
     position: absolute;
     left: 40px;
-    color: rgba(0,0,0,0.5);
+    color: $color-3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#blinking_cursor {
+    animation: blink 1.5s steps(1) 0s infinite;
+    padding-left: 1px;
+}
+
+@keyframes blink {
+    
+    50% {
+        visibility: hidden;
+    }
 }
 
 #search-input {
@@ -74,17 +201,25 @@ a {
     height: 100%;
     padding-left: 40px;
     width: 100%;
-    background-color: rgba(0,0,0,0);;
+    background-color: $transparent;
+    
+    outline: none;
 }
 
 .search-btn-container {
     height: 100%;
     width: 100px;
+    
+    outline: none;
+}
+
+.search-btn-container svg * {
+    stroke: $color-4;
 }
 
 .search-btn-svg-container {
     height: 80%;
-    border-left: 1px solid rgb(0,0,0,0.1);
+    border-left: 1px solid $color-3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,6 +230,15 @@ a {
     cursor: pointer;
 }
 
+
+.search-btn-container:hover svg * {
+    stroke: $color-5;
+}
+
+.searchResultsPage {
+    height: 100%;
+}
+
 .searchResults {
     display: flex;
     flex-wrap: wrap;
@@ -102,38 +246,109 @@ a {
 }
 
 /** Card **/
-.bookOptions {
+.card, .skelly-card {
     width: 100%;
-    position: absolute;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    background-color: rgba(74, 81, 87, 0.068);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 1px 5px 7px 0.1px $color-2-grey;
+    box-sizing: border-box;
+    background-color: $color-1;
 }
 
-.bookOptions button {
-    border-radius: 5px;
-    background-color: $pop-color;
-    padding: 0.75em 1em;
+@media (max-width: 500px) {
+    .card, .skelly-card {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        width: 90%;
+        margin: auto;
+        box-shadow: none;
+        border-bottom: 1px solid $color-2;
+    }
+    .skelly-book-cover {
+        width: 100px;
+        height: 100% !important;
+        background-size: cover;
+    }
+    .bookCover {
+        width: 100px;
+        height: 100% !important;
+        background-size: cover;
+    }
+    .searchResults {
+        flex-direction: column;
+    }
+    .bookInfo, .skelly-card-bottom {
+        flex-grow: 2;
+        padding-left: 1em;
+    }
+    .genre {
+        display: none !important;
+    }
 }
-.bookOptions button:hover {
-    background-color: white;
+
+@media (max-width: 768px) {
+    
+    .search-logo {
+        flex-direction: column !important;
+    }
+    header {
+        padding: 0 !important;
+    }
+    .header-top {
+        position: fixed !important;
+        height: 50px !important;
+    }
+    .header-top * {
+        display: none !important;
+    }
+    .fixed .logo {
+        margin: auto !important;
+    }
+    .searchResults {
+        padding-top: 165px;
+    }
+}
+
+@media (min-width: 500px) {
+    .card, .skelly-card {
+        max-width: calc(33.3333% - 20px);
+    }
+}
+
+@media (min-width: 768px) {
+    .card, .skelly-card {
+        max-width: calc(20% - 20px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .card, .skelly-card {
+        max-width: calc(14% - 20px);
+    }
+}
+.card:hover {
+    box-shadow: 1px 5px 12px 2px $color-2-grey;
+}
+
+#card_author, #card_extension, #card_year {
+    font-size: 0.8em;
+}
+
+.cardTop, .skelly-card-top {
+    position: relative;
+    height: 200px;
 }
 
 .bookCover {
-    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 200px;
 }
 
 .blur {
     filter: blur(4px);
-    z-index: -1;
-}
-
-.bookCover img {
-    max-width: 100%;
-    height: 100%;
 }
 
 .bookInfo a:hover {
@@ -144,47 +359,59 @@ a {
     display: flex;
     flex-direction: row;
 }
-
-.card {
+.bookOptions {
+    position: absolute;
+    top: 0;
     width: 100%;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-    box-shadow: 5px 10px 5px 5px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $transparent;
+}
+
+.bookOptionsInner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $color-2;
+    border-radius: 5px;
+    background-color: $color-1;
+    height: 75%;
+}
+
+.bookOptionsInner > * {
+    width: 100%;
+    height: 100%;
+    font-size: 0.8em;
+}
+
+.downloadBtn {
+    padding: 0 1em;
+}
+
+.bookOptionsInner > *:hover {
+    color: $color-5;
+    background-color: $color-2-grey;
+    cursor: pointer;
+}
+
+.addToLibrary {
     box-sizing: border-box;
+    height: 100%;
+    text-align: center;
 }
 
-@media (max-width: 500px) {
-    .card {
-        display: flex;
-        flex-direction: row;
-    }
-    .bookCover {
-        max-width: 100px;
-        height: 100%;
-        background-size: cover;
-    }
-}
 
-@media (min-width: 500px) {
-    .card {
-        max-width: calc(33.3333% - 20px);
-    }
-}
-
-@media (min-width: 768px) {
-    .card {
-        max-width: calc(20% - 20px);
-    }
-}
-
-@media (min-width: 1024px) {
-    .card {
-        max-width: calc(14% - 20px);
-    }
-}
 
 .genre {
+    height: 100%;
+    width: 200px;
+}
+
+.dropdown {
     position: relative;
     box-sizing: border-box;
     height: 100%;
@@ -192,33 +419,96 @@ a {
     align-items: center;
 }
 
-.genre > * {
-    padding: 0 1em;
+.dropdownTop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.genre:hover {
+.dropdownTop > * {
+    padding: 0 0.5em;
+}
+
+.dropdown:hover {
     cursor: pointer;
 }
 
-.dropdown {
-    display: flex;
+.dropdownOptions {
+    display: none;
     flex-direction: column;
     position: absolute;
+    z-index: 10;
     top: 100%;
-    z-index: 2;
     width: 100%;
     box-sizing: border-box;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: white;
-    box-shadow: 0 4px 5px 1px rgba(0,0,0,0.3);
+    background-color: $color-1;
+    overflow: hidden;
+    box-shadow: 0 4px 5px 1px $color-2;
 }
 
 .dropdownOption {
     width: 100%;
-    padding: 1em 0;
+    padding: 1em 0.5em;
+    box-sizing: border-box;
 }
 
 .dropdownOption:hover {
-    font-weight: bold;
+    color: $color-5;
+}
+
+/** Skeleton **/
+.skelly-author, .skelly-extension, .skelly-date, .skelly-title { 
+    height: 17px;
+    box-sizing: border-box;
+    margin: 0.2em 0;
+}
+
+.skelly-card-bottom {
+    flex-grow: 2;
+}
+
+.skelly-author {
+    width: 75%;
+}
+
+.skelly-extension {
+    width: 50px;
+}
+
+.skelly-date {
+    width: 50px;
+}
+
+.skelly-card-top {
+    box-sizing: border-box;
+    margin: 0.5em 0;
+}
+
+.skelly-author, .skelly-extension, .skelly-date, .skelly-title, .skelly-card-left, .skelly-card-top {
+    background: linear-gradient(90deg, $color-1, $color-2-grey, $color-1);
+    animation: skeleton-gradient 2s linear infinite;
+    background-size: 200% 200%;
+}
+
+@keyframes skeleton-gradient {
+    0% {
+        background-position: 200% 50%;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 0% 50%;
+        opacity: 0;
+    }
+}
+
+/** Book Info Page **/
+.bookInfoPage .readMore:hover {
+    cursor: pointer;
 }

@@ -1,17 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import Search from './Search.js';
-import SearchResults from './SearchResults.js';
-import axios from 'axios';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
+import gsap from 'gsap';
+import axios from 'axios';
+
 import Header from './Header.js';
 import Home from './Home';
-import Loading from './Loading.js';
-import gsap from 'gsap';
+import BookInfoPage from './BookInfoPage';
+import SearchResults from './SearchResults.js';
+
+const useFetch = async(url) => {
+    
+
+}
 
 export default function App() {
     const [searchResults, setSearchResults] = useState(JSON.parse(sessionStorage.getItem('searchResults')) || []);
-    const [search, setSearch] = useState(sessionStorage.getItem('search') || '');
-    const [searchPlaceholder, setSearchPlaceholder] = useState('Title');
+    const [searchValue, setSearchValue] = useState(sessionStorage.getItem('searchValue') || '');
+    const [searchPlaceholder, setSearchPlaceholder] = useState('');
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -21,28 +27,35 @@ export default function App() {
 
     const [errors, setErrors] = useState([]);
 
+    const [redirectToResults, setRedirectToResults] = useState(false);
+
+    const [redirectToHome, setRedirectToHome] = useState(false);
+
+    const [mobile, setMobile] = useState(false);
+
     const fakeData = [
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
-        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: ".epub", filesize: '496963', id: "255661" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255661", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255662", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255663", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255664", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255665", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255666", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255667", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255668", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "255669", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "25565", coverurl:"../../public/images/cover.jpg" },
+        { title: "Bob Marley: A Biography", author: "David Moskowitz Ph.D.", year: "2004", extension: "epub", filesize: '496963', id: "25564", coverurl:"../../public/images/cover.jpg" },
     ]
+
+
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        if (search != undefined && search.replace(/\s/g, '').length > 0) {
+        if (searchValue != undefined && searchValue.replace(/\s/g, '').length > 0) {
             setIsLoading(true);
             setErrors({noResultsFound: false})
-            const query = search.replace(' ', '+');
+            const query = searchValue.replace(' ', '+');
             const url = 'http://localhost:8080/api/?req=' + query + '&fields=' + queryFields + (genre == 'Fiction' ? '&lg_topic=fiction' :  '');
-            console.log(url);
             /* const results = await axios(url).catch(err => console.log(err))
             .then((results) => {
                 if (results.data.notFound) {
@@ -56,26 +69,25 @@ export default function App() {
             }); */
             setTimeout(() => {
                 setSearchResults(fakeData);
-                console.log(searchResults);
                 sessionStorage.setItem('searchResults', JSON.stringify(fakeData));
                 setIsLoading(false);
-            }, 2000)
+            }, 2000);
+            setRedirectToResults(true);
         }
 
     }
 
     const onChange = (event) => {
-        setSearch(event.target.value);
-        sessionStorage.setItem('search', event.target.value);
+        setSearchValue(event.target.value);
+        sessionStorage.setItem('searchValue', event.target.value);
     }
 
-    const placeholderCarousel = () => {
-        const placeholders = ['ISBN', 'Author', 'Title', 'Topic', 'Year'];
-        let index = placeholders.findIndex((placeholder) => searchPlaceholder == placeholder);
-        index = index + 1 == placeholders.length ? 0 : index + 1;
+    const textVerticalCarousel = (wordArray, state, setState) => {
+        let index = wordArray.findIndex((word) => state == word);
+        index = index + 1 == wordArray.length ? 0 : index + 1;
 
         setTimeout(() => {
-            setSearchPlaceholder(placeholders[index]);
+            setState(wordArray[index]);
             if (document.getElementById('search-label')) {
                 gsap.fromTo('#search-label', {y:-30}, {y: 0, duration: 0.5})
                 gsap.to('#search-label', {y:25, delay: 1.5, duration: 0.5, ease: "none"})
@@ -84,42 +96,87 @@ export default function App() {
 
     }
 
+    const typeText = (placeholders, i, j, increment) => {
+        let typingSpeed;
+        if (increment < 0) typingSpeed = 100;
+        else typingSpeed = 250;
+        setTimeout(() => {
+            if (placeholders[i].length < j -1) {
+                // Change to removing characters
+                increment = -1; 
+            } else if (j < 1) { 
+                // Change to adding characters
+                i += 1;
+                increment = 1;
+            } 
+            j += increment; // Change character index
+            if (i >= placeholders.length) i = 0; // Restart list
+            
+            setSearchPlaceholder(placeholders[i].slice(0, j));
+
+            typeText(placeholders, i, j, increment);
+        }, typingSpeed)
+    }
+
     useEffect(() => {
-        placeholderCarousel();
-    }, [searchPlaceholder])
+        const placeholders = ['ISBN', 'Author', 'Title', 'Topic', 'Year'];
+        typeText(placeholders, 0, 0, 1);
+    }, [])
+
+    useEffect(() => {
+        if (redirectToHome)
+            setSearchValue('')
+    }, [redirectToHome])
+
+    
+
+    useEffect(() => {
+        if (window.innerWidth <= 500) {
+            setMobile(true);
+        } else {
+            setMobile(false);
+        }
+    }, [window.innerWidth])
 
     return (
-        <div>
-            <Header search={false} loggedIn={false}></Header>
+        <div className='app'>
+            <Header 
+                search={false} 
+                loggedIn={false}
+                placeholder={searchPlaceholder} 
+                onSubmit={onSubmit} 
+                searchValue={searchValue} 
+                onChange={onChange} 
+                searchClass='search-header'
+                setGenre={setGenre}
+                genre={genre}
+                errors={errors}
+                redirectToResults={redirectToResults}
+                redirectToHome={redirectToHome}
+            ></Header>
 
-            <Switch>
-                <Route exact path='/' render=
-                {(props) => <Home {...props} 
-                    placeholder={searchPlaceholder} 
-                    onSubmit={onSubmit} 
-                    searchValue={search}
-                    setSearchValue={setSearch} 
-                    onChange={onChange} 
-                    searchClass='search-home'
-                    setGenre={setGenre}
-                    genre={genre}
-                    errors={errors}
-                />}>
-                </Route>
-                <Route path='/search' render={(props) => <SearchResults {...props} 
-                    results={searchResults} 
-                    placeholder={searchPlaceholder} 
-                    onSubmit={onSubmit} 
-                    searchValue={search} 
-                    onChange={onChange} 
-                    searchClass='search-header'
-                    setGenre={setGenre}
-                    genre={genre}
-                    errors={errors}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                />}></Route>
-            </Switch>
+            {redirectToResults ? <Redirect to='/search'></Redirect> : <></>}
+
+            <div className='main'>
+                <Switch>
+                    <Route exact path='/' render=
+                    {(props) => <Home {...props} setRedirectToHome={setRedirectToHome} redirectToResults={redirectToResults}/>}>
+                    </Route>
+                    <Route path='/search' render={(props) => <SearchResults {...props} 
+                        results={searchResults} 
+                        errors={errors}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
+                        setRedirectToResults={setRedirectToResults}
+                        mobile={mobile}
+                        setMobile={setMobile}
+                    />}></Route>
+                    <Route path='/book/:id'>
+                        <BookInfoPage></BookInfoPage>
+                    </Route>
+                </Switch>
+            </div>
+
         </div>
     )
 }
