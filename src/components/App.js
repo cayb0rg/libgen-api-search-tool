@@ -9,11 +9,6 @@ import Home from './Home';
 import BookInfoPage from './BookInfoPage';
 import SearchResults from './SearchResults.js';
 
-const useFetch = async(url) => {
-    
-
-}
-
 export default function App() {
     const [searchResults, setSearchResults] = useState(JSON.parse(sessionStorage.getItem('searchResults')) || []);
     const [searchValue, setSearchValue] = useState(sessionStorage.getItem('searchValue') || '');
@@ -22,7 +17,7 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [queryFields, setQueryFields] = useState('Title,Author,id');
-    
+
     const [genre, setGenre] = useState('Nonfiction');
 
     const [errors, setErrors] = useState([]);
@@ -51,16 +46,18 @@ export default function App() {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        setErrors({noResultsFound: false});
+        setIsLoading(true);
+        setRedirectToResults(true);
         if (searchValue != undefined && searchValue.replace(/\s/g, '').length > 0) {
-            setIsLoading(true);
             setErrors({noResultsFound: false})
             const query = searchValue.replace(' ', '+');
-            const url = 'http://localhost:8080/api/?req=' + query + '&fields=' + queryFields + (genre == 'Fiction' ? '&lg_topic=fiction' :  '');
-            console.log(url);
+            const url = 'http://localhost:8080/api/?req=' + query + '&fields='
+            + queryFields + (genre == 'Fiction' ? '&lg_topic=fiction' :  '');
             const results = await axios(url).catch(err => console.log(err))
             .then((results) => {
                 if (results.data.notFound) {
-                    setErrors({noResultsFound: true}) 
+                    setErrors({noResultsFound: true})
                 } else {
                     setSearchResults(results.data);
                     sessionStorage.setItem('searchResults', JSON.stringify(results.data));
@@ -72,7 +69,6 @@ export default function App() {
             //     sessionStorage.setItem('searchResults', JSON.stringify(fakeData));
             //     setIsLoading(false);
             // }, 2000);
-            setRedirectToResults(true);
         }
 
     }
@@ -103,15 +99,15 @@ export default function App() {
         setTimeout(() => {
             if (placeholders[i].length < j -1) {
                 // Change to removing characters
-                increment = -1; 
-            } else if (j < 1) { 
+                increment = -1;
+            } else if (j < 1) {
                 // Change to adding characters
                 i += 1;
                 increment = 1;
-            } 
+            }
             j += increment; // Change character index
             if (i >= placeholders.length) i = 0; // Restart list
-            
+
             setSearchPlaceholder(placeholders[i].slice(0, j));
 
             typeText(placeholders, i, j, increment);
@@ -128,7 +124,7 @@ export default function App() {
             setSearchValue('')
     }, [redirectToHome])
 
-    
+
 
     useEffect(() => {
         if (window.innerWidth <= 500) {
@@ -140,13 +136,13 @@ export default function App() {
 
     return (
         <div className='app'>
-            <Header 
-                search={false} 
+            <Header
+                search={false}
                 loggedIn={false}
-                placeholder={searchPlaceholder} 
-                onSubmit={onSubmit} 
-                searchValue={searchValue} 
-                onChange={onChange} 
+                placeholder={searchPlaceholder}
+                onSubmit={onSubmit}
+                searchValue={searchValue}
+                onChange={onChange}
                 searchClass='search-header'
                 setGenre={setGenre}
                 genre={genre}
@@ -162,8 +158,8 @@ export default function App() {
                     <Route exact path='/' render=
                     {(props) => <Home {...props} setRedirectToHome={setRedirectToHome} redirectToResults={redirectToResults}/>}>
                     </Route>
-                    <Route path='/search' render={(props) => <SearchResults {...props} 
-                        results={searchResults} 
+                    <Route path='/search' render={(props) => <SearchResults {...props}
+                        results={searchResults}
                         errors={errors}
                         isLoading={isLoading}
                         setIsLoading={setIsLoading}
