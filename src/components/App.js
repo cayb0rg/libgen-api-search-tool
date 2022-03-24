@@ -155,7 +155,6 @@ export default function App() {
             ></Header>
 
             {redirectToResults ? <Redirect to='/search'></Redirect> : <></>}
-            {redirectToHome ? <Redirect to='/'></Redirect> : <></>}
 
             <div className='main'>
                 <Switch>
