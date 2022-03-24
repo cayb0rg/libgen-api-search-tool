@@ -9,6 +9,9 @@ import Home from './Home';
 import BookInfoPage from './BookInfoPage';
 import SearchResults from './SearchResults.js';
 
+// API url
+const api_url = 'https://we-search-for-books.herokuapp.com/api/';
+
 export default function App() {
     const [searchResults, setSearchResults] = useState(JSON.parse(sessionStorage.getItem('searchResults')) || []);
     const [searchValue, setSearchValue] = useState(sessionStorage.getItem('searchValue') || '');
@@ -52,7 +55,7 @@ export default function App() {
         if (searchValue != undefined && searchValue.replace(/\s/g, '').length > 0) {
             setErrors({noResultsFound: false})
             const query = searchValue.replace(' ', '+');
-            const url = 'http://localhost:8080/api/?req=' + query + '&fields='
+            const url = api_url + '?req=' + query + '&fields='
             + queryFields + (genre == 'Fiction' ? '&lg_topic=fiction' :  '');
             const results = await axios(url).catch(err => console.log(err))
             .then((results) => {
@@ -152,6 +155,7 @@ export default function App() {
             ></Header>
 
             {redirectToResults ? <Redirect to='/search'></Redirect> : <></>}
+            {redirectToHome ? <Redirect to='/'></Redirect> : <></>}
 
             <div className='main'>
                 <Switch>
