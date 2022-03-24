@@ -1,6 +1,6 @@
 # Library (WIP)
 
-An unfinished library implementation of the Library Genesis API (https://github.com/cayb0rg/libgen-api).
+An unfinished library implementation of my other project, a Library Genesis API (https://github.com/cayb0rg/libgen-api).
 
 It can be viewed live at https://cayb0rg.github.io/libgen_api_implementation/
 
