@@ -2,7 +2,7 @@
 
 An unfinished library implementation of the Library Genesis API (https://github.com/cayb0rg/libgen-api).
 
-It can be viewed live at https://libgen-api-implementation.herokuapp.com/
+It can be viewed live at https://cayb0rg.github.io/libgen_api_implementation/
 
 # To Do
 - Get and display book covers
