@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Routes, Redirect } from 'react-router-dom';
 
 import gsap from 'gsap';
 import axios from 'axios';
@@ -8,11 +8,6 @@ import Header from './Header.js';
 import Home from './Home';
 import BookInfoPage from './BookInfoPage';
 import SearchResults from './SearchResults.js';
-
-const useFetch = async(url) => {
-    
-
-}
 
 export default function App() {
     const [searchResults, setSearchResults] = useState(JSON.parse(sessionStorage.getItem('searchResults')) || []);
@@ -158,7 +153,7 @@ export default function App() {
             {redirectToResults ? <Redirect to='/search'></Redirect> : <></>}
 
             <div className='main'>
-                <Switch>
+                <Routes>
                     <Route exact path='/' render=
                     {(props) => <Home {...props} setRedirectToHome={setRedirectToHome} redirectToResults={redirectToResults}/>}>
                     </Route>
@@ -174,7 +169,7 @@ export default function App() {
                     <Route path='/book/:id'>
                         <BookInfoPage></BookInfoPage>
                     </Route>
-                </Switch>
+                </Routes>
             </div>
 
         </div>

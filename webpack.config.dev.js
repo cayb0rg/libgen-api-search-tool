@@ -16,10 +16,7 @@ module.exports = {
     },
     devtool: 'cheap-module-source-map',
     devServer: {
-        stats: 'minimal',
-        overlay: true,
         historyApiFallback: true,
-        disableHostCheck: true,
         headers: { 'Access-Control-Allow-Origin': '*'},
         https: false,
         port: 3000,
