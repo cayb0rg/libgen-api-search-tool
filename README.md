@@ -2,8 +2,6 @@
 
 An unfinished library implementation of my other project, a Library Genesis API (https://github.com/cayb0rg/libgen-api).
 
-It can be viewed live at https://cayb0rg.github.io/libgen_api_implementation/
-
 # To Do
 - Get and display book covers
 - Allow users to specify number of results
