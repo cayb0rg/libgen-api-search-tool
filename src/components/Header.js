@@ -15,7 +15,6 @@ export default function Header(props) {
     }, [props.redirectToResults])
 
     const headerTransition = () => {
-        console.log('hi')
         if (document.body.scrollTop > 50) {
             document.querySelector('search-logo').classList.add('fixed');
         }
@@ -73,23 +72,16 @@ export default function Header(props) {
                     <canvas id='N' width="40" height="50">
                     </canvas>
                 </a>
-                <Search  
+                <Search
                     placeholder={props.placeholder}
-                    onSubmit={props.onSubmit} 
-                    searchValue={props.searchValue} 
+                    onSubmit={props.onSubmit}
+                    searchValue={props.searchValue}
                     onChange={props.onChange}
                     genre={props.genre}
-                    setGenre={props.setGenre} 
+                    setGenre={props.setGenre}
                     searchClass={props.searchClass}
                     setFiction={props.setFiction}
                 />
-            </div>
-            <div className='header-top'>
-                <div className='userLogIn'>
-                    <a>{props.loggedIn ? 
-                    'User': 
-                    'Log In'}</a>
-                </div>
             </div>
         </header>
     )

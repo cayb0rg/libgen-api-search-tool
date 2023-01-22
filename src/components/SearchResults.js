@@ -10,6 +10,7 @@ export default function SearchResults(props) {
   const [sortByChanged, setSortByChanged] = useState(false);
 
   useEffect(() => {
+
     props.setRedirectToResults(true);
     gsap.set(".search-logo", {
       display: "flex",
@@ -36,7 +37,7 @@ export default function SearchResults(props) {
   return props.errors.noResultsFound ? (
     <p>No Results Found</p>
   ) : props.isLoading ? (
-    <SkeletonResults 
+    <SkeletonResults
     mobile={props.mobile}></SkeletonResults>
   ) : (
     <div className="searchResults">
@@ -58,7 +59,7 @@ export default function SearchResults(props) {
       })}
     </div>
   );
-  {/* <Suspense fallback={<SkeletonResults 
+  {/* <Suspense fallback={<SkeletonResults
     mobile={props.mobile}></SkeletonResults>}>
       <div className="searchResults">
       {props.results.map((book) => {
@@ -79,5 +80,5 @@ export default function SearchResults(props) {
       })}
     </div>
     </Suspense> */}
-  
+
 }
